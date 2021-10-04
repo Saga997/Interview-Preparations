@@ -64,6 +64,12 @@ public class CollectionDemo {
 		System.out.println("Array after conversion"+ vegan instanceOf String);
 		System.out.println(vegan.toString());
 		
+		
+		//clear method
+		fruitCollection.clear();
+		vegCollection.clear();
+		vegan.clear();
+		System.out.println("After clear(): "+fruitCollection+vegan+vegCollection);
 
 		
 	}
