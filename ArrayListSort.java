@@ -101,7 +101,7 @@ public class ArrayListSort {
 
 		// custom object sorting
 		List<Employee> employee = new ArrayList<Employee>();
-
+		
 		employee.add(new Employee(1, 23, "Jahid", 33000L));
 		employee.add(new Employee(55, 25, "Harish", 43000L));
 		employee.add(new Employee(12, 22, "Shankar", 13000L));
@@ -110,11 +110,17 @@ public class ArrayListSort {
 
 		// will sort the employee based on salary by ascending order
 		Collections.sort(employee, new CustomSort());
-		System.out.println("Using comparator sorting custom object based on salary: " + employee);
+		System.out.println("Using comparator sorting custom object based on salary: ");
+		for(Employee e: employee) {
+			System.out.println(e);
+		}
 
 		// using lambda expression while using this no need of using CustomSort class
 		Collections.sort(employee, (e1, e2) -> e1.getName().compareTo(e2.getName()));
-		System.out.println("Using Lambda and comparator sorting custom object based on Name : " + employee);
+		System.out.println("Using Lambda and comparator sorting custom object based on Name : ");
+		for(Employee e: employee) {
+			System.out.println(e);
+		}
 
 	}
 
