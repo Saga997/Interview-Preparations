@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class HashSetDemo {
 
@@ -48,8 +49,8 @@ public class HashSetDemo {
 		colorsList.add("Burgundy");
 		colorsList.add("Grey");
 		colorsList.add("Grey");
-		System.out.println("get(0) of list: "+colorsList.get(0));
-		
+		System.out.println("get(0) of list: " + colorsList.get(0));
+
 		colors.addAll(colorsList);
 		System.out.println("After adding ArrayList: " + colors);
 
@@ -60,13 +61,23 @@ public class HashSetDemo {
 		programmingLanguages.add("C");
 		programmingLanguages.add("C#");
 		programmingLanguages.add("C++");
-		System.out.println("LinkedHasSet maintains the insertion order as it is an ordered collection : " + programmingLanguages);
-		
-		//remove
+		System.out.println(
+				"LinkedHasSet maintains the insertion order as it is an ordered collection : " + programmingLanguages);
+
+		// remove
 		programmingLanguages.remove("Java");
 		programmingLanguages.remove("JavaScript");
-		System.out.println("after removal: "+programmingLanguages);
-		
+		System.out.println("after removal: " + programmingLanguages);
+
+		// removeif
+		colors.removeIf(e -> e == null);
+		System.out.println("after rmeoving null from color set: " + colors);
+
+		// treeset doesn't allow null values
+		TreeSet<String> colorSorted = new TreeSet<String>(colors);
+		colorSorted.addAll(colors);
+		System.out.println("After sorting in treeset: " + colorSorted);
+
 	}
 
 }
