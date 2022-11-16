@@ -31,7 +31,7 @@ public class LinkedListClass {
 		System.out.println("----After adding the end--------");
 		print(fruits);
 
-		// adding the start of LinkedList
+		// adding the start of LinkedList 
 		fruits.addFirst("Straberry");
 		System.out.println("----After adding the start--------");
 		print(fruits);
