@@ -1,0 +1,33 @@
+Create Docker Images for Microservices
+Dockerfile for each microservice. This file contains the instructions to create the Docker image.
+
+# Start with a base image with Java
+FROM openjdk:17-jdk-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the built JAR file into the container
+COPY target/my-microservice.jar my-microservice.jar
+
+# Expose the application port
+EXPOSE 8080
+
+# Define the entry point for the container
+ENTRYPOINT ["java", "-jar", "my-microservice.jar"]
+
+Build the Docker Image: Run the following command in the directory containing the Dockerfile:
+docker build -t my-microservice:latest .
+
+Tag and Push the Docker Image to a Container Registry
+(e.g., Docker Hub, AWS ECR, Google Container Registry):
+
+# Tag the image
+docker tag my-microservice:latest your-repo/my-microservice:latest
+
+# Log in to your Docker registry
+docker login
+
+# Push the image
+docker push your-repo/my-microservice:latest
+

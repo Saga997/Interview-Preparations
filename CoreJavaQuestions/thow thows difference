@@ -1,0 +1,53 @@
+1. throw Keyword
+The throw keyword is used to explicitly throw an exception from a method or a block of code. It is used when you want to manually raise an exception, either checked or unchecked, based on some condition.
+
+Purpose: To throw an exception explicitly in a method.
+Usage: Inside a method or block, when you want to throw an exception at a specific point in your code.
+Syntax:
+
+java
+Copy code
+throw new ExceptionType("Error message");
+Example:
+public class ThrowExample {
+    public static void validateAge(int age) {
+        if (age < 18) {
+            throw new IllegalArgumentException("Age must be 18 or above");
+        } else {
+            System.out.println("Valid age");
+        }
+    }
+
+    public static void main(String[] args) {
+        validateAge(16);  // This will throw an IllegalArgumentException
+    }
+}
+In this example, the throw keyword is used to raise an IllegalArgumentException if the age is below 18.
+
+2. throws Keyword
+The throws keyword is used in the method signature to indicate that the method might throw certain types of exceptions during its execution. It informs the compiler and the caller of the method that the specified exception(s) may be thrown, and it needs to be handled by the caller.
+
+Purpose: To declare exceptions that a method might throw.
+Usage: In the method declaration, to specify the exceptions that the method could potentially throw.
+Syntax:
+
+returnType methodName() throws ExceptionType1, ExceptionType2 {
+    // Method body
+}
+
+import java.io.IOException;
+
+public class ThrowsExample {
+    // Method that declares it might throw an IOException
+    public static void readFile() throws IOException {
+        throw new IOException("File not found");
+    }
+
+    public static void main(String[] args) {
+        try {
+            readFile();  // Method that can throw an exception
+        } catch (IOException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+    }
+}

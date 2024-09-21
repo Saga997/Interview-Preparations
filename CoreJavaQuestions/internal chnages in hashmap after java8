@@ -1,0 +1,120 @@
+Introduction of TreeNodes (Red-Black Trees) for High Collisions:
+
+Before Java 8, HashMap handled collisions by using a simple linked list of nodes at each bucket.
+This worked well under normal conditions, but if many keys ended up in the same bucket (high collision scenario),
+it resulted in O(n) time complexity for get(), put(), and remove() operations.
+
+Java 8 introduced TreeNodes, which are based on a self-balancing binary search tree (specifically, a Red-Black tree),
+to handle such collision scenarios. When the number of elements in a bucket exceeds a threshold (default is 8),
+the linked list is replaced with a Red-Black tree.
+
+The tree structure significantly reduces the time complexity for operations on heavily collided buckets
+from O(n) to O(log n).
+
+Parallel Stream vs. Stream in Java
+Java provides two types of streams: sequential streams (commonly referred to as just "streams") and
+parallel streams. Both are part of the Java Streams API introduced in Java 8 and are used for processing collections of data. However, they differ significantly in their execution model and performance characteristics.
+
+1. Overview of Streams
+Streams are sequences of elements that support various operations to process data, such as filtering,
+mapping, and reducing.
+They are designed to work with collections like List, Set, and arrays in a functional style,
+allowing for concise and readable code.
+
+2. What is a Parallel Stream?
+A Parallel Stream is a variant of the standard stream that allows the stream operations to be executed
+in parallel rather than sequentially.
+It uses multiple threads to divide the work of the stream operations into smaller parts,
+distributing the tasks across available processor cores to enhance performance, particularly with
+large datasets.
+Parallel streams utilize the ForkJoinPool common pool to manage threads and parallelize the
+execution of tasks.
+
+Processing large collections where performance gains from parallel execution outweigh the cost of managing threads.
+Computationally intensive tasks, such as data analysis, numerical computations, or processing large datasets where
+each operation is independent.
+Scenarios where order of execution is not critical, or where reordering the results does not affect the outcome.
+
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        // Sequential Stream - processed in a single thread
+        numbers.stream()
+               .forEach(n -> System.out.println("Sequential: " + n + " - " + Thread.currentThread().getName()));
+
+        System.out.println("\n");
+
+
+        // Parallel Stream - processed in multiple threads
+        numbers.parallelStream()
+               .forEach(n -> System.out.println("Parallel: " + n + " - " + Thread.currentThread().getName()));
+
+               The sequential stream processes each element in the main thread sequentially.
+               The parallel stream divides the work among multiple threads, showing that elements are processed
+     concurrently.
+
+
+     Deep cloning and Shallow cloning:
+Cloning in Java refers to creating a copy of an object.shallow cloning and deep cloning.
+Understanding the differences between these two approaches is crucial for managing how objects and their fields are copied.
+
+1. Shallow Cloning
+Definition: Shallow cloning creates a new object and copies all the fields of the original object to the new object.
+However, it does not clone objects referenced by the fields (i.e., it only copies the references).
+How it Works: When an object is shallow cloned, primitive fields are copied, but object references are shared
+between the original and cloned objects.
+Usage: Shallow cloning is typically used when the object being cloned does not
+have complex nested objects
+or when sharing the references of mutable objects is acceptable.
+
+class Address {
+    String city;
+    Address(String city) {
+        this.city = city;
+    }
+}
+
+class Person implements Cloneable {
+    String name;
+    Address address; // Reference type field
+
+    Person(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    // Overriding the clone() method
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone(); // Creates a shallow copy
+    }
+}
+
+public class ShallowCloneExample {
+    public static void main(String[] args) throws CloneNotSupportedException {
+        Address address = new Address("New York");
+        Person original = new Person("John", address);
+        Person shallowClone = (Person) original.clone();
+
+        // Modifying the address field in the cloned object
+        shallowClone.address.city = "Los Angeles";
+
+        }
+
+
+
+        Deep Cloning
+        Definition: Deep cloning creates a new object and recursively clones all objects referenced by the fields of
+        the original object. Thus, the cloned object and the original object do not share any references.
+        How it Works: During deep cloning, all nested objects are copied, resulting in a complete,
+        independent copy of the original object with no shared mutable references.
+        Usage: Deep cloning is used when an exact copy of an object is required, including all
+        referenced objects, ensuring complete independence from the original.
+
+
+
+
+
+
+
+
+

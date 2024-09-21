@@ -1,0 +1,34 @@
+Types of Synchronization:
+Process Synchronization: Ensures coordination between different processes in an operating system.
+Thread Synchronization: Prevents multiple threads from accessing critical sections of code or shared
+resources concurrently. This is what Java synchronization focuses on.
+
+Synchronized Methods: When a method is declared with the synchronized keyword, it ensures that
+only one thread can execute the method at a time on the same object.
+
+public synchronized void updateCounter() {
+    counter++;
+}
+
+Synchronized Blocks: Instead of synchronizing an entire method, you can synchronize a specific
+block of code inside a method. This is useful if only part of the method involves accessing shared resources,
+allowing other threads to execute the non-critical parts of the method concurrently.
+
+public void updateCounter() {
+    synchronized(this) {
+        counter++;
+    }
+}
+
+Locks: Every object in Java has an intrinsic lock or monitor. When a thread enters a synchronized
+method or block,
+it acquires the lock of that object. Other threads trying to enter a synchronized method/block on
+ the same object will be blocked until the lock is released.
+
+Static Synchronization: You can also synchronize static methods. In this case, the lock is on the class
+object, not on the instance of the class. This ensures that only one thread can execute the static
+synchronized method, regardless of the number of instances of the class.
+
+public static synchronized void staticSyncMethod() {
+    // critical section
+}

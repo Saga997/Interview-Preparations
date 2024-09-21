@@ -1,0 +1,43 @@
+The Executor Service in Java is part of the java.util.concurrent package and provides
+a high-level framework for managing and controlling threads. It simplifies the process of creating, managing, and
+terminating threads, allowing developers to handle asynchronous task execution with greater flexibility and control
+compared to directly managing threads.
+
+Thread Pool Management: Executor Service manages a pool of threads, allowing you to reuse existing threads
+and control the number of threads in use.
+Task Submission: You can submit tasks for execution without worrying about creating and managing threads manually.
+Scheduling: Executor Service provides ways to schedule tasks to run after a certain delay or periodically.
+Graceful Shutdown: It provides mechanisms to shut down the executor service gracefully or immediately, ensuring
+all submitted tasks are handled properly.
+Future and Callable Support: It allows tasks to return results and handle exceptions using Future and Callable.
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ExecutorServiceExample {
+    public static void main(String[] args) {
+        // Create a fixed thread pool with 3 threads
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+
+        // Submit tasks to the executor service
+        for (int i = 1; i <= 5; i++) {
+            int taskNumber = i;
+            executorService.submit(() -> {
+                System.out.println("Executing Task " + taskNumber + " by " + Thread.currentThread().getName());
+                try {
+                    Thread.sleep(2000); // Simulating some work
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                System.out.println("Task " + taskNumber + " completed by " + Thread.currentThread().getName());
+            });
+        }
+
+        // Shut down the executor service
+        executorService.shutdown();
+    }
+}
+
+Using Callable and Future with Executor Service
+Unlike Runnable, Callable can return a result and throw a checked exception.
+The result can be retrieved using a Future object.

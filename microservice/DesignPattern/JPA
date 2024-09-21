@@ -1,0 +1,53 @@
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public class JPAExample {
+
+    public static void main(String[] args) {
+        // Create EntityManagerFactory with persistence unit defined in persistence.xml
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("example-unit");
+        EntityManager em = emf.createEntityManager();
+
+        // Find an employee by ID
+        Employee employee = em.find(Employee.class, 1);
+
+        // Print the employee details
+        if (employee != null) {
+            System.out.println("ID: " + employee.getId() + ", Name: " + employee.getName());
+        } else {
+            System.out.println("Employee not found");
+        }
+
+        // Close EntityManager and EntityManagerFactory
+        em.close();
+        emf.close();
+    }
+}
+
+
+EntityManager is a key interface responsible for managing the persistence context.
+It provides methods to interact with the database and perform CRUD (Create, Read, Update, Delete) operations on entities.
+EntityManager is a central component in JPA for managing the lifecycle of entities and their interactions with the database.
+
+Entity Management:
+Persist: Adds a new entity to the database.
+Merge: Updates an existing entity or saves a detached entity.
+Remove: Deletes an entity from the database.
+Find: Retrieves an entity based on its primary key.
+Refresh: Reloads the entity state from the database to synchronize with the current database state.
+
+Transaction Management:
+Begin Transaction: Starts a new transaction.
+Commit: Commits the current transaction, persisting changes to the database.
+Rollback: Rolls back the current transaction, undoing changes.
+
+Query Execution:
+Create Query: Creates queries to fetch or manipulate data using JPQL (Java Persistence Query Language) or native SQL.
+Named Queries: Allows the use of predefined queries stored in metadata.
+
+Context Management:
+Flush: Synchronizes the persistence context with the underlying database.
+Clear: Clears the persistence context, detaching all entities.
+Close: Closes the EntityManager, releasing resources.
+

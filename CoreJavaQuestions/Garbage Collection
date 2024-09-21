@@ -1,0 +1,55 @@
+In Java, garbage collection (GC) is a process by which the Java Virtual Machine (JVM) automatically manages memory.
+It reclaims memory occupied by objects that are no longer in use, thereby helping to prevent memory leaks and optimize
+the performance of Java applications
+
+Automatic Memory Management: Java handles memory allocation and deallocation automatically. This eliminates the need
+for developers to manually free memory, which is required in languages like C or C++.
+
+Heap Memory: The JVM uses a portion of system memory known as the heap to store objects created by the application.
+The heap is divided into different areas such as the Young Generation, Old Generation (also known as Tenured Generation),
+and Permanent Generation (or Metaspace in recent JVM versions).
+
+Garbage Collection Goals: application has sufficient memory available for new objects.
+
+Garbage Collection Process
+Object Creation: When an object is created, it is allocated memory in the heap. The reference to this object is
+held in variables or data structures.
+
+Object Reachability: The GC determines if an object is reachable through references. An object is considered
+reachable if it can be accessed through any chain of references starting from the application’s root references
+(like local variables, static variables, or active threads).
+
+Mark and Sweep: The core steps of garbage collection generally include:
+
+Marking: The GC identifies all reachable objects by traversing the reference graph from root references.
+Sweeping: The GC then identifies all unreachable objects (i.e., those not marked) and reclaims their memory,
+making it available for new objects.
+Generational Collection: To improve efficiency, the heap is often divided into:
+
+Young Generation: Where new objects are allocated. It consists of the Eden Space and two Survivor Spaces. Objects that survive multiple GC cycles in the Young Generation are promoted to the Old Generation.
+Old Generation: Where long-lived objects are eventually moved. This area is collected less frequently than the Young Generation.
+Permanent Generation/Metaspace: Used for storing metadata about classes and methods. In recent JVMs, Metaspace replaced the Permanent Generation.
+GC Algorithms:
+
+Serial GC: A simple, single-threaded collector suitable for small applications.
+Parallel GC: Uses multiple threads to speed up the collection process. Suitable for multi-core processors.
+Concurrent Mark-Sweep (CMS): Minimizes pause times by performing most of the GC work concurrently with the application.
+G1 (Garbage-First) GC: Designed to handle large heaps with predictable pause times by dividing the heap into regions and performing incremental collections.
+Finalization: Java allows objects to override a finalize() method, which is called by the GC before the object is reclaimed. However, relying on finalize() is generally discouraged due to its unpredictability and performance impact.
+
+public class GCExample {
+    public static void main(String[] args) {
+        GCExample obj1 = new GCExample();
+        GCExample obj2 = new GCExample();
+        obj1 = null; // The reference to the first object is lost
+
+        // At this point, obj1 is no longer reachable, but obj2 is still reachable
+
+        System.gc(); // Suggests that the JVM performs garbage collection (note: this is not guaranteed to run GC immediately)
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Object is being garbage collected");
+    }
+}

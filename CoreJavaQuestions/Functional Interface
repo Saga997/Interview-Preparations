@@ -1,0 +1,82 @@
+A functional interface in Java is an interface that has exactly one abstract method.
+can have multiple default or static methods, but they must have exactly one abstract method.
+primarily to represent lambda expressions and method references in Java, which were introduced in Java 8 as
+
+@FunctionalInterface Annotation: While not mandatory, it's a good practice to use the @FunctionalInterface
+annotation to indicate that an interface is intended to be functional. This annotation helps catch errors at
+compile time if the interface does not meet the functional interface requirements.
+
+Runnable: Represents a task that can be executed by a thread.
+Abstract Method: void run()
+Runnable task = () -> System.out.println("Task is running");
+new Thread(task).start();
+
+Callable<V>: Represents a task that returns a result and may throw an exception.
+Abstract Method: V call() throws Exception
+Callable<Integer> task = () -> {
+    return 123;
+};
+Integer result = task.call();
+System.out.println(result);
+
+Comparator<T>:Used to compare two objects of type T.
+Abstract Method: int compare(T o1, T o2)
+
+Comparator<String> comparator = (s1, s2) -> s1.length() - s2.length();
+int comparison = comparator.compare("apple", "banana");
+System.out.println(comparison);
+
+Function<T, R>: Represents a function that accepts an argument of type T and produces a
+result of type R.
+Abstract Method: R apply(T t)
+
+Function<String, Integer> stringLength = str -> str.length();
+Integer length = stringLength.apply("hello");
+System.out.println(length);
+
+Predicate<T>: Represents a boolean-valued function of one argument.
+Abstract Method: boolean test(T t)
+
+Predicate<String> isNotEmpty = str -> !str.isEmpty();
+boolean result = isNotEmpty.test("test");
+System.out.println(result);
+
+Supplier<T>: Represents a supplier of results, providing values of type T.
+Abstract Method: T get()
+
+Supplier<String> supplier = () -> "Hello, World!";
+String value = supplier.get();
+System.out
+
+Stream API provides a functional programming approach to process sequences of elements. Here,
+reducers are used in the context of the reduce method, which performs a reduction operation on a stream of elements.
+
+Example: You can use reduce to sum up numbers in a stream or concatenate strings.
+
+public class StreamReducerExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        // Summing up numbers using reduce
+        Optional<Integer> sum = numbers.stream()
+                                       .reduce((a, b) -> a + b);
+
+        sum.ifPresent(System.out::println); // Output: 15
+    }
+
+ method reference is a shorthand, more readable way to represent a lambda expression that executes
+ just one method. It allows you to refer to methods directly by their names without needing to
+ explicitly define the lambda expression. Method references can be used to improve code readability and
+ reduce boilerplate.
+
+Reference to a static method
+ClassName::staticMethodName
+
+Reference to an instance method of a particular object
+instance::instanceMethodName
+
+Reference to an instance method of an arbitrary object of a particular type
+ClassName::instanceMethodName
+
+Reference to a constructor
+ClassName::new

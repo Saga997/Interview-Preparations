@@ -1,0 +1,50 @@
+Stored procedures are precompiled collections of SQL statements and optional control-of-flow statements, stored within a database. They are designed to perform a specific task, often repeatedly, such as data manipulation, validation, or complex business logic, directly within the database server. Stored procedures help encapsulate logic, improve performance, and promote reusability in database operations.
+
+Key Features of Stored Procedures:
+Precompiled Execution: Stored procedures are compiled once and stored in the database, allowing faster
+execution since the database engine reuses the compiled plan.
+Parameterization: They can accept input parameters, return output parameters, or provide a result set,
+making them flexible for various operations.
+Security: Access to data can be controlled by granting permissions to execute stored procedures instead of direct access to the tables, enhancing security.
+Modularity and Reusability: They allow complex operations to be encapsulated and reused, promoting better code management and maintenance.
+Reduced Network Traffic: Instead of sending multiple SQL queries over the network, a single call to a stored procedure can perform all operations, reducing network overhead.
+How Stored Procedures Work:
+Stored procedures are created using SQL languages like T-SQL (for SQL Server),
+PL/pgSQL (for PostgreSQL), PL/SQL (for Oracle), etc.
+Once defined, they are stored in the database and can be executed on demand.
+Example of a Stored Procedure
+Here's an example of a stored procedure in SQL Server that retrieves user information based on user ID:
+
+sql
+Copy code
+-- Example: Stored Procedure in SQL Server
+CREATE PROCEDURE GetUserDetails
+    @UserID INT
+AS
+BEGIN
+    -- Select statement to fetch user details
+    SELECT UserID, UserName, Email
+    FROM Users
+    WHERE UserID = @UserID;
+END;
+Explanation:
+CREATE PROCEDURE GetUserDetails: Creates a stored procedure named GetUserDetails.
+@UserID INT: Defines an input parameter @UserID of type integer.
+SELECT: Fetches user details from the Users table where UserID matches the provided parameter.
+Executing the Stored Procedure
+To execute the above stored procedure, you would use:
+
+sql
+Copy code
+-- Executing the stored procedure
+EXEC GetUserDetails @UserID = 1;
+Advantages of Using Stored Procedures:
+Performance: They reduce query parsing and execution times because they are precompiled and cached.
+Maintainability: Complex logic is centralized within the database, simplifying application code.
+Security: Stored procedures can validate input parameters and restrict direct access to tables.
+Consistency: Common operations can be standardized across the application by using stored procedures.
+Use Cases:
+Data validation before insertion or update.
+Implementing business logic inside the database.
+Automating repetitive tasks like data cleanup, reporting, or complex data transformations.
+Abstracting database schema complexities from application developers.

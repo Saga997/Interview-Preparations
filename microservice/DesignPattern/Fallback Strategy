@@ -1,0 +1,26 @@
+Combining retry mechanisms with fallbacks can provide additional robustness by attempting the main operation multiple
+times before falling back.
+
+Example Integration: Shift Approval Service with Retry and Fallback:
+
+Scenario: If approving a shift fails due to a temporary issue, retry the operation before triggering fallback logic.
+Fallback Implementation: Retry the operation a predefined number of times; if all attempts fail, log the action for
+manual intervention or trigger an alternative process.
+
+@Service
+public class ShiftApprovalService {
+
+    @Retry(name = "shiftApprovalRetry", fallbackMethod = "fallbackShiftApproval")
+    public String approveShift(String shiftId) {
+        // Attempt to approve the shift
+        return shiftApprovalApi.approve(shiftId);
+    }
+
+    // Fallback method if retry fails
+    public String fallbackShiftApproval(String shiftId, Throwable throwable) {
+        // Log for manual review or trigger alternate approval logic
+        manualReviewService.logFailedApproval(shiftId);
+        return "Shift approval failed, logged for manual review.";
+    }
+}
+

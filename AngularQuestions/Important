@@ -1,0 +1,20 @@
+ What is Angular? Why was it introduced?
+Angular was introduced to create Single Page applications. This framework brings structure and consistency to web
+applications and provides excellent scalability and maintainability.
+
+Angular is an open-source, JavaScript framework wholly written in TypeScript. It uses HTML's syntax to express your
+application's components clearly.
+Type script is JavaScript javaScript was not object oriented but type script is object oriented it has a strong
+Type casting compile time error checks maintainable and reusable code at the end type script is compiled to JavaScript
+ and type script starts with JavaScript and ends with ECMA Script JavaScript it is the standard specification of a
+ scripting language
+ TS scripts converted into JS equivalent for execution purpose on browser
+
+ JavaScript was built by Microsoft Vs code editor by Microsoft built in support for JS TS and NODE JS is not a
+ framework or a programming language it is an open source Runtime environment for executing JS code built on
+ Google Chrome JS engine
+
+ Type script compiles clean simple JavaScript code which runs on every browser or in Node JS that is JS engine
+ so Run code on node JS which interprets your code and show the results in browser when you change
+ anything in the file it reinterprets it and re-renders to browser
+ Framework is a collection of libraries Runtime environment is where your code get executed on

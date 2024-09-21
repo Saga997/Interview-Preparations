@@ -1,0 +1,118 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class AtomicIntegerExample {
+    public static void main(String[] args) {
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+
+        // Increment and get the value
+        System.out.println("Increment and Get: " + atomicInteger.incrementAndGet()); // Output: 1
+
+        // Add 5 to the current value
+        System.out.println("Add and Get: " + atomicInteger.addAndGet(5)); // Output: 6
+
+        // Compare and set: If current value is 6, set it to 10
+        boolean wasUpdated = atomicInteger.compareAndSet(6, 10);
+        System.out.println("Was updated: " + wasUpdated); // Output: true
+        System.out.println("Current Value: " + atomicInteger.get()); // Output: 10
+    }
+}
+Benefits of AtomicInteger:
+High Performance: Atomic operations are generally faster than synchronizing with locks since they
+avoid context switching and blocking.
+Lock-Free: Reduces the risk of deadlocks, livelocks, and other synchronization-related issues.
+Easy to Use: Provides simple methods for common operations that would otherwise require synchronization.
+Better Scalability: Ideal for use in high-concurrency environments like counters, shared state management,
+and other scenarios where multiple threads update a shared variable.
+
+
+Ways to Achieve Synchronization in Java
+Synchronization in Java is essential for ensuring that shared resources are accessed in a
+thread-safe manner, preventing race conditions and data inconsistency. Here are the primary ways synchronization can be achieved in Java:
+
+Synchronized Method:
+
+Declaring a method as synchronized ensures that only one thread can execute the method at a time
+for a given object.
+
+public synchronized void synchronizedMethod() {
+    // Critical section of code
+}
+
+Synchronized Block:
+
+A synchronized block within a method locks an object or class, ensuring that only one thread
+can execute the code within the block at a time.
+
+public void method() {
+    synchronized (this) {
+        // Critical section of code
+    }
+}
+
+Static Synchronization:
+
+Synchronizing a static method ensures that the method is locked at the class level, meaning only
+one thread can execute any static synchronized method of the class at any given time.
+
+public static synchronized void staticSynchronizedMethod() {
+    // Critical section of code
+}
+
+Locks (java.util.concurrent.locks.Lock):
+
+The Lock interface (e.g., ReentrantLock) provides more flexible locking options compared to
+synchronized blocks. It allows locking and unlocking manually, providing greater control over
+synchronization.
+
+Lock lock = new ReentrantLock();
+lock.lock();
+try {
+    // Critical section of code
+} finally {
+    lock.unlock();
+}
+Atomic Variables (e.g., AtomicInteger, AtomicBoolean):
+
+Atomic variables like AtomicInteger provide atomic operations without the need for synchronization, offering thread-safe operations with better performance than traditional locking.
+Example:
+java
+Copy code
+AtomicInteger counter = new AtomicInteger(0);
+counter.incrementAndGet();
+Volatile Keyword:
+
+Declaring a variable as volatile ensures that changes to the variable are visible to all threads immediately. It does not provide atomicity but ensures visibility and ordering.
+Example:
+java
+Copy code
+private volatile boolean flag = false;
+Semaphore:
+
+A Semaphore controls access to a resource by allowing a certain number of permits, ensuring that only a specific number of threads can access the resource simultaneously.
+Example:
+java
+Copy code
+Semaphore semaphore = new Semaphore(1); // Binary semaphore, similar to a lock
+semaphore.acquire();
+try {
+    // Critical section of code
+} finally {
+    semaphore.release();
+}
+ReadWriteLock (java.util.concurrent.locks.ReadWriteLock):
+
+This lock allows multiple threads to read a resource concurrently but ensures exclusive access for writing.
+It improves performance by allowing multiple readers when no writing is occurring.
+Example:
+java
+Copy code
+ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+readWriteLock.readLock().lock();
+try {
+    // Read operation
+} finally {
+    readWriteLock.readLock().unlock();
+}
+CountdownLatch and CyclicBarrier:
+
+CountDownLatch and CyclicBarrier are synchronization aids that allow threads to wait for each other to reach a certain point before continuing execution.

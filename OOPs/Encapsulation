@@ -1,0 +1,82 @@
+class Employee {
+    // Private fields to ensure data hiding
+    private String name;
+    private int age;
+    private double salary;
+
+    // Constructor to initialize Employee object
+    public Employee(String name, int age, double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
+
+    // Getter for 'name' (read-only access to name)
+    public String getName() {
+        return name;
+    }
+
+    // Setter for 'name' (write access to name)
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter for 'age'
+    public int getAge() {
+        return age;
+    }
+
+    // Setter for 'age' with validation
+    public void setAge(int age) {
+        if(age > 18) {
+            this.age = age;
+        } else {
+            System.out.println("Age must be greater than 18");
+        }
+    }
+
+    // Getter for 'salary'
+    public double getSalary() {
+        return salary;
+    }
+
+    // Setter for 'salary' with validation
+    public void setSalary(double salary) {
+        if(salary > 0) {
+            this.salary = salary;
+        } else {
+            System.out.println("Salary must be positive");
+        }
+    }
+
+    // Method to display employee details
+    public void displayEmployeeDetails() {
+        System.out.println("Employee Name: " + name);
+        System.out.println("Employee Age: " + age);
+        System.out.println("Employee Salary: $" + salary);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating an Employee object
+        Employee emp = new Employee("John Doe", 30, 50000.00);
+
+        // Accessing employee details using getters
+        System.out.println("Employee Name (via getter): " + emp.getName());
+
+        // Changing employee name using setter
+        emp.setName("Jane Doe");
+
+        // Updating age and salary using setters
+        emp.setAge(25);      // Valid age
+        emp.setSalary(55000.00);  // Valid salary
+
+        // Displaying updated employee details
+        emp.displayEmployeeDetails();
+
+        // Invalid updates (demonstrating encapsulation)
+        emp.setAge(17);      // Invalid age, will trigger validation
+        emp.setSalary(-1000);  // Invalid salary, will trigger validation
+    }
+}

@@ -1,0 +1,39 @@
+The join() method in Java is used to ensure that one thread waits for the completion of another thread before
+continuing its execution. It is a method provided by the Thread class, allowing a thread to pause execution until
+the specified thread (the one on which join() is called) finishes.
+
+Sequential Execution: When you want one thread to finish its task before another thread can continue, you can use
+join(). It helps ensure that the second thread only proceeds once the first one completes its execution.
+
+Waiting for Multiple Threads: You can call join() on multiple threads in a loop, ensuring that the main thread or
+any other thread waits for all the threads to complete before continuing.
+
+Coordination Between Threads: join() is helpful in scenarios where one thread's task is dependent on the result or
+completion of another thread.
+
+public class JoinExample {
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                System.out.println("Thread 1 - Count: " + i);
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                System.out.println("Thread 2 - Count: " + i);
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+
+        // Main thread waits for thread1 to finish before continuing
+        thread1.join();
+
+        // Main thread waits for thread2 to finish before continuing
+        thread2.join();
+
+        System.out.println("Both threads have completed execution");
+    }
+}

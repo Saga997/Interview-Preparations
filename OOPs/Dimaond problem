@@ -1,0 +1,19 @@
+class Herbivore{
+default void eat(){ sout("Herbivore is eating");}
+
+class Carnivore{
+default void eat(){ sout("Carnivore is eating");}
+
+class DiamondProblem implements Herbivore,Carnivore{
+
+@Override
+public void eat()
+{ Carnivore.super.eat();
+  Herbivore.super.eat();
+  }
+
+public static void main(String[] args)
+{
+  DimaondProblem dp = new DimaondProblem();
+  dp.eat();
+  }

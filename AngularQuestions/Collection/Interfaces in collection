@@ -1,0 +1,40 @@
+the Collection Framework provides several key interfaces to represent different types of
+data structures. These interfaces are part of java.util package and define the basic functionalities
+for collections of objects.
+
+Collection Interface (java.util.Collection)
+The root interface of the Collection Framework. It defines basic operations like adding, removing,
+and checking elements but does not specify how these operations should be performed.
+It is extended by other interfaces like List, Set, and Queue.
+
+List Interface (java.util.List)
+A sub interface of Collection that represents an ordered collection (also known as a sequence).
+Allows duplicates, maintains insertion order.
+Implementations: ArrayList, LinkedList, Vector, Stack
+
+Set Interface (java.util.Set)
+A sub interface of Collection that represents a collection of unique elements (no duplicates).
+Implementations: HashSet, LinkedHashSet, TreeSet
+
+SortedSet Interface (java.util.SortedSet)
+Extends Set and maintains the elements in a sorted order.
+Implementation: TreeSet.
+
+NavigableSet Interface (java.util.NavigableSet)
+Extends SortedSet and provides navigation methods like finding the closest matches for given elements.
+Implementation: TreeSet.
+
+Queue Interface (java.util.Queue)
+A subinterface of Collection designed for holding elements prior to processing (typically in FIFO order).
+Implementations: LinkedList, PriorityQueue.
+
+ Deque Interface (java.util.Deque)
+Extends Queue and allows insertion and removal from both ends (double-ended queue).
+Implementations: LinkedList, ArrayDeque.
+
+Map Interface (java.util.Map)
+Represents a collection of key-value pairs (not part of Collection interface hierarchy but is an
+important part of the framework).
+Keys are unique, values can be duplicated.
+Implementations: HashMap, LinkedHashMap, TreeMap, WeakHashMap, ConcurrentHashMap
+

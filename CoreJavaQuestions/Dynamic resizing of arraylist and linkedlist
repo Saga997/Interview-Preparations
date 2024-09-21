@@ -1,0 +1,61 @@
+Both ArrayList and LinkedList are implementations of the List interface in Java, but they differ
+significantly in terms of how they handle storage, resizing, and performance. Here’s a comparison specifically focusing on initial capacity and dynamic resizing:
+
+1. ArrayList
+Initial Capacity:
+
+By default, an ArrayList has an initial capacity of 10. This capacity can be specified explicitly when the
+ArrayList is created using a constructor, e.g., new ArrayList<>(20) to set an initial capacity of 20.
+
+Dynamic Resizing:
+
+ArrayList uses a dynamically resizable array to store elements. When the current capacity is exceeded,
+it resizes the internal array.
+The resizing process involves creating a new array with a larger capacity (typically 1.5 times the
+current size), copying the elements from the old array to the new one, and discarding the old array.
+This resizing mechanism allows ArrayList to grow automatically, but it can be costly because resizing
+requires copying all elements to the new array.
+
+2. LinkedList
+Initial Capacity:
+
+LinkedList does not have an initial capacity. Instead of an array, it uses a doubly-linked list to
+store elements. Each element is stored in a Node object containing references to the next and previous
+elements.
+Since it’s based on nodes rather than an array, it doesn't require a pre-defined size or capacity.
+Dynamic Resizing:
+
+LinkedList grows dynamically with each addition of elements because it does not rely on an underlying
+array. Adding an element simply involves creating a new node and updating the pointers.
+There is no need for resizing or copying of elements, making LinkedList more efficient for frequent
+insertions and deletions.
+
+Summary of Differences:
+Feature	ArrayList	LinkedList
+Initial Capacity	Default is 10, can be set explicitly	No initial capacity, uses nodes
+Dynamic Resizing	Resizes by copying to a larger array	Grows dynamically by adding nodes
+Performance Impact	Resizing can be costly (O(n) operation)	No resizing cost, but each node adds overhead
+
+
+When to Use Each:
+Use ArrayList when you need fast random access and don't expect frequent insertions or deletions
+in the middle of the list.
+
+Use LinkedList when you have frequent insertions and deletions, especially at the
+beginning or middle of the list, and don't need random access.
+
+
+Why is the remove method faster in the linked list than in an arraylist?
+
+ArrayList:
+Removing an element involves shifting all subsequent elements to maintain array order. This shifting is
+an O(n) operation in the worst case (e.g., when removing the first element).
+For example, if you remove the first element of an ArrayList of size n, it must shift n-1 elements,
+making the operation costly.
+
+LinkedList:
+Removal is O(1) when the node is already known because it only needs to adjust the pointers of the
+adjacent nodes (previous and next).
+Finding the node to remove takes O(n) time in the worst case (traversal), but the actual removal of the
+node itself is efficient.
+Element Shifting vs. Pointer Reassignment:

@@ -1,0 +1,21 @@
+What is Resilience4j?
+Resilience4j is a lightweight, easy-to-use fault tolerance library inspired by
+Netflix Hystrix. It provides various features.
+
+Circuit Breaker — fault tolerance
+Rate Limiter — block too many requests
+Time Limiter — limit time while calling remote operations
+Retry Mechanism — automatic retry for failed operations
+Bulkhead — limit number of concurrent requests
+Cache — store results of costly remote operations
+
+I’m going to implement a simple inter service communication scenario using two services called
+loan-service and rate-service.
+
+Technical details:
+Spring Boot with H2 in-memory DB, JPA, Hibernate, Actuator, Resilience4j
+
+Scenario:
+Loan service can fetch Loans saved in DB and each loan object has loan type. There are separate interest rate
+percentages according to the loan type. So, Rate service is having those Rate object details with it’s name.
+

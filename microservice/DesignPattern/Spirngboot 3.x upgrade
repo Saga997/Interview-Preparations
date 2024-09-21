@@ -1,0 +1,105 @@
+You'll find new metrics, enhanced tracing, and improved integration with popular
+observability tools
+
+Java 17 Baseline
+public sealed interface Payment permits CreditCardPayment, PayPalPayment {}
+
+public final class CreditCardPayment implements Payment {
+    // Implementation details
+}
+
+public final class PayPalPayment implements Payment {
+    // Implementation details
+}
+
+Native Executable Support with GraalVM
+Spring Boot 3.0 introduces first-class support for building native executables using GraalVM, which significantly
+reduces startup time and memory usage.
+
+Observability with Micrometer and Spring Observability
+Spring Boot 3.0 includes enhancements for observability with improved support for metrics, tracing, and logging,
+integrating seamlessly with tools like Prometheus, Grafana, and OpenTelemetry.
+
+Improved Security with Spring Security 6
+Spring Boot 3.0 incorporates Spring Security 6, which provides enhanced security features,
+including simplified configurations and the latest security standards.
+
+Example: Configuring Security with Spring Security 6
+
+java
+Copy code
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().authenticated()
+            )
+            .formLogin(withDefaults());
+        return http.build();
+    }
+}
+
+Jakarta EE 9+ Migration
+Spring Boot 3.0 moved to Jakarta EE 9+, which means package names have changed from javax.* to jakarta.*.
+This transition helps align Spring Boot with the latest Jakarta EE standards.
+
+Impact of the Transition and Benefits of Jakarta EE
+Modern Development Practices:
+
+Jakarta EE is more responsive to the needs of modern developers, including better support
+for cloud-native applications, microservices architectures, and integration with modern DevOps practices.
+It supports newer technologies like RESTful services, reactive programming, and integration with tools like
+Kubernetes and Docker.
+
+Example of Transition: From javax.persistence to jakarta.persistence
+
+ HTTP Interfaces
+Spring Boot 3.0 introduces HTTP interfaces, allowing you to define REST client APIs using Java interfaces,
+simplifying the way you work with external APIs.
+
+Example: HTTP Interface Using Spring Boot 3.0
+
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
+
+@HttpExchange("/posts")
+public interface PostClient {
+
+    @GetExchange("/{id}")
+    Post getPostById(@PathVariable Long id);
+}
+Then inject and use this interface wherever needed, leveraging Spring's declarative HTTP
+client approach.
+
+7. Enhanced Error Handling with Problem Details
+Spring Boot 3.0 adopts RFC 7807 for error handling, providing a standard structure for error
+messages in APIs using the ProblemDetail class.
+
+Example: Custom Error Handling with Problem Details
+
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ProblemDetail handleResourceNotFound(ResourceNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(404, ex.getMessage());
+    }
+}
+
+Configuring Swagger in Spring Boot 3.x versions involves using Springdoc OpenAPI,
+a modern alternative to the previously popular Springfox library, which is no longer well-maintained.
+Springdoc OpenAPI integrates seamlessly
+with Spring Boot 3.x, which uses the Jakarta EE namespace.
+

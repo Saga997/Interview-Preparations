@@ -1,0 +1,30 @@
+Wildcards in Java are represented by the question mark (?) and are used in Generics to represent an unknown type.
+They are a powerful feature in Java that provides flexibility when working with classes, interfaces, and methods that
+use Generics, allowing for more generic and reusable code.
+
+Unbounded Wildcards (?): Represents an unknown type without any bounds.
+Upper-Bounded Wildcards (? extends T): Restricts the unknown type to be a subtype of a specific
+class or interface (T).
+Lower-Bounded Wildcards (? super T): Restricts the unknown type to be a supertype of a
+specific class (T).
+
+public class UnboundedWildcardExample {
+    // Method that accepts a list of any type
+    public static void printList(List<?> list) {
+        for (Object element : list) {
+            System.out.println(element);
+        }
+    }
+
+    public static void main(String[] args) {
+        List<Integer> intList = List.of(1, 2, 3);
+        List<String> strList = List.of("a", "b", "c");
+
+        printList(intList); // Works with List<Integer>
+        printList(strList); // Works with List<String>
+    }
+}
+
+
+
+

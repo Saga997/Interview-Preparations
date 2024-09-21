@@ -1,0 +1,33 @@
+Spring Boot Actuator is a powerful feature that helps developers monitor and manage Spring Boot applications by
+exposing production-ready endpoints.
+
+Health Checks: Provides health status of the application, including information about databases, message brokers,
+and other components.
+Metrics: Exposes key application metrics such as CPU usage, memory usage, garbage collection, and
+custom application metrics.
+Environment Information: Displays environment properties, configuration properties, and system properties.
+Loggers: Allows you to view and configure log levels dynamically.
+Application Uptime: Provides information on how long the application has been running.
+HTTP Trace: Shows details of HTTP requests and responses (useful for debugging).
+Beans: Lists all Spring beans in the application context, showing their types and configurations.
+Thread Dumps: Captures and displays current thread activity, which is useful for diagnosing performance issues.
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+Example Configuration (application.properties):
+
+# Enable all endpoints
+management.endpoints.web.exposure.include=*
+# Set base path for actuator endpoints
+management.endpoints.web.base-path=/actuator
+# Enable health and info endpoints
+management.endpoint.health.show-details=always
+
+Health Endpoint (/actuator/health):
+Metrics Endpoint (/actuator/metrics):
+Info Endpoint (/actuator/info):
+Loggers Endpoint (/actuator/loggers):
+Thread Dump Endpoint (/actuator/threaddump):

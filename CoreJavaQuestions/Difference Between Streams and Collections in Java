@@ -1,0 +1,19 @@
+Collections: Collections are data structures that hold and organize objects, such as List, Set, and Map. They are part
+of the java.util package and provide ways to store, retrieve, and manipulate groups of objects.
+
+Streams: Streams are sequences of data elements that allow you to perform operations on data in a functional style,
+such as filtering, mapping, and reducing. They are part of the java.util.stream package and focus on processing data
+rather than storing it.
+
+Collections: Focus on storing objects. For example, a List can store multiple elements that can be accessed,
+modified, and iterated over.
+Streams: Focus on processing data. Streams do not hold the data but create a pipeline of operations to be
+performed on the data (e.g., filtering, mapping).
+
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+for (Integer number : numbers) {
+    System.out.println(number); // External iteration
+}
+
+numbers.stream().forEach(System.out::println); // Internal iteration
+

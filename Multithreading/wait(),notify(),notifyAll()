@@ -1,0 +1,23 @@
+why wait() notify() notifyAll() method is present in Object class and not in Thread class
+--> The methods wait(), notify(), and notifyAll() are present in the Object class instead of the Thread class
+because they are designed to operate on an object's monitor (or intrinsic lock), which every object in Java possesses.
+
+ The wait(), notify(), and notifyAll() methods control the behavior of threads with respect to an object's lock.
+ Since every object can be a lock, these methods are part of the Object class
+
+ Thread Interaction with Object's Monitor: The wait() method causes the current thread to release the lock and
+ wait until another thread invokes notify() or notifyAll() on the same object to wake it up. Similarly,
+ notify() and notifyAll() notify one or all waiting threads, respectively, that they can re-acquire the lock
+ and proceed. This interaction happens at the object level, not at the thread level.
+
+ Thread Class Represents Behavior, Not Synchronization: The Thread class represents the concept of an individual
+ thread of execution. It doesn't control object-level synchronization or the object's intrinsic lock. Since wait(),
+  notify(), and notifyAll() are synchronization mechanisms tied to the object lock, it makes more sense for them to
+  be in the Object class.
+
+Multiple Threads Can Wait on One Object: In Java, multiple threads may be waiting for the same object's lock.
+The wait() method puts the current thread in a waiting state for that particular object.
+The notify() and notifyAll() methods are used to signal waiting threads that the object’s state may have changed,
+allowing threads to proceed. Since threads are waiting for a particular object's monitor, the object, not the thread,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        controls the synchronization behavior.
+

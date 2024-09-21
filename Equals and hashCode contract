@@ -1,0 +1,66 @@
+The equals() and hashCode() methods are crucial parts of Java's object handling, especially when dealing
+with collections such as HashMap, HashSet, and other hash-based structures. Understanding the contract
+between equals() and hashCode() is vital to ensure consistent and correct behavior in Java applications.
+
+Equals and HashCode Contract
+The basic rule of the contract states that if two objects are equal to each other based on equals() method, then the
+hash code must be the same, but if the hash code is the same, then equals() can return false.
+
+If two objects are equal according to the equals(Object) method, then they must have the same hashCode() value.
+If two objects are not equal according to the equals(Object) method, they are not required to
+have different hash codes.
+
+Equality Checks: equals() is used to determine if two objects are considered equal in terms of their content.
+Hash-Based Collections: hashCode() is used by hash-based collections (e.g., HashMap, HashSet) to quickly locate
+objects. Consistent implementation of hashCode() and equals() ensures that the objects are correctly stored and retrieved.
+
+import java.util.Objects;
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getters and setters (optional)
+
+    // Overriding equals method
+    @Override
+    public boolean equals(Object o) {
+        // Check if the object is being compared to itself
+        if (this == o) return true;
+        // Check if the object is null or not the same class
+        if (o == null || getClass() != o.getClass()) return false;
+        // Cast to Person class and compare fields
+        Person person = (Person) o;
+        return age == person.age && Objects.equals(name, person.name);
+    }
+
+    // Overriding hashCode method
+    @Override
+    public int hashCode() {
+        // Generate hash code based on fields used in equals()
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + '}';
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person1 = new Person("Alice", 30);
+        Person person2 = new Person("Alice", 30);
+        Person person3 = new Person("Bob", 25);
+
+        System.out.println("person1 equals person2: " + person1.equals(person2)); // true
+        System.out.println("person1 hashCode: " + person1.hashCode()); // same hash code as person2
+        System.out.println("person2 hashCode: " + person2.hashCode());
+        System.out.println("person1 equals person3: " + person1.equals(person3)); // false
+    }
+}

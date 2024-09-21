@@ -1,0 +1,2 @@
+While JPQL queries are written in a database-independent manner, focusing on the entities,
+native queries use pure SQL and are written with database-specific syntax.

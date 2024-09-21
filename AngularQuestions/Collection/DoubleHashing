@@ -1,0 +1,14 @@
+Double hashing is a collision resolution technique used in hashmaps (or hash tables) that combines two hash
+functions to resolve collisions. Unlike linear probing and quadratic probing, which sequentially probe the
+next slot, double hashing uses a second hash function to calculate the interval between probes, providing a
+more distributed approach to collision resolution.
+
+How Double Hashing Works:
+Primary Hash Function: The first hash function (hash1(key)) determines the initial index where the key should be stored.
+Secondary Hash Function: When a collision occurs, a second hash function (hash2(key)) determines the step size
+(i.e., how far to move) for the next probe.
+Probe Sequence: The probe sequence for double hashing is defined as:
+index = (hash1(key) + i * hash2(key)) % table_size
+Here, i is the number of times a collision has occurred, starting from 0
+
+

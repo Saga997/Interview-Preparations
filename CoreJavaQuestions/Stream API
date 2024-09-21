@@ -1,0 +1,105 @@
+A Stream represents a sequence of elements that can be processed in parallel or sequentially.
+Streams support a wide variety of operations that can be categorized into intermediate operations and terminal operations.
+
+ Creating Streams
+From a Collection: List<String> list = Arrays.asList("apple", "banana", "cherry");
+                           list.stream().forEach(System.out::println);
+
+From Arrays: String[] array = {"apple", "banana", "cherry"};
+                     Arrays.stream(array).forEach(System.out::println);
+
+Stream.of("apple", "banana", "cherry").forEach(System.out::println);
+
+ Intermediate Operations
+Intermediate operations return a new stream and are lazy, meaning they are not executed until a terminal operation is invoked.
+
+filter: Filters elements based on a condition.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        list.stream()
+            .filter(s -> s.startsWith("b"))
+            .forEach(System.out::println); // Output: banana
+
+map: Transforms each element into another form.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        list.stream()
+            .map(String::toUpperCase)
+            .forEach(System.out::println); // Output: APPLE BANANA CHERRY
+
+flatMap: Flattens nested structures into a single stream.
+        List<List<String>> listOfLists = Arrays.asList(
+            Arrays.asList("apple", "banana"),
+            Arrays.asList("cherry", "date")
+        );
+        listOfLists.stream()
+            .flatMap(List::stream)
+            .forEach(System.out::println); // Output: apple banana cherry date
+
+distinct: Removes duplicate elements.
+        List<String> list = Arrays.asList("apple", "banana", "apple", "cherry");
+        list.stream()
+            .distinct()
+            .forEach(System.out::println); // Output: apple banana cherry
+
+sorted: Sorts elements in natural order or using a comparator.
+        List<String> list = Arrays.asList("banana", "apple", "cherry");
+        list.stream()
+            .sorted()
+            .forEach(System.out::println); // Output: apple banana cherry
+
+peek: Allows you to perform a side-effect operation on each element.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        list.stream()
+            .peek(s -> System.out.println("Processing: " + s))
+            .map(String::toUpperCase)
+            .forEach(System.out::println); // Output: Processing: apple APPLE Processing: banana BANANA Processing: cherry CHERRY
+
+3. Terminal Operations
+Terminal operations produce a result or a side-effect and trigger the processing of the
+stream pipeline.
+
+forEach: Performs an action for each element.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        list.stream().forEach(System.out::println); // Output: apple banana cherry
+
+collect: Collects the elements into a collection or another form.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        List<String> collected = list.stream()
+            .collect(Collectors.toList());
+        System.out.println(collected); // Output: [apple, banana, cherry]
+
+reduce: Reduces the stream to a single value using a binary operator.
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+        Optional<Integer> sum = list.stream()
+            .reduce((a, b) -> a + b);
+        sum.ifPresent(System.out::println); // Output: 15
+
+count: Counts the number of elements.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        long count = list.stream().count();
+        System.out.println(count); // Output: 3
+
+
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        Optional<String> first = list.stream().findFirst();
+        first.ifPresent(System.out::println); // Output: apple
+
+anyMatch: Checks if any elements match a given predicate.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        boolean hasBanana = list.stream().anyMatch(s -> s.equals("banana"));
+        System.out.println(hasBanana); // Output: true
+
+allMatch: Checks if all elements match a given predicate.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        boolean allStartWithA = list.stream().allMatch(s -> s.startsWith("a"));
+        System.out.println(allStartWithA); // Output: false
+
+noneMatch: Checks if no elements match a given predicate.
+
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        boolean noneStartWithZ = list.stream().noneMatch(s -> s.startsWith("z"));
+        System.out.println(noneStartWithZ); // Output: true
+
+toArray: Collects the elements into an array.
+        List<String> list = Arrays.asList("apple", "banana", "cherry");
+        String[] array = list.stream().toArray(String[]::new);
+        System.out.println(Arrays.toString(array)); // Output: [apple, banana, cherry]

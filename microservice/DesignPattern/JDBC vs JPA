@@ -1,0 +1,44 @@
+JDBC- (Java Database Connectivity) we need to explicitly map query result into a java class
+Level API: Provides a lower-level, database-specific approach to interact directly with the database.
+Manual SQL Writing: Developers must write SQL queries manually and manage the result sets.
+Connection Management: Requires explicit management of database connections, statements, and resources.
+No ORM: No Object-Relational Mapping (ORM); it works directly with raw data and result sets.
+Need to handle SQL exceptions manually.
+
+public class JDBCExample {
+
+    // Database URL, username, and password
+    private static final String URL = "jdbc:mysql://localhost:3306/exampledb";
+    private static final String USER = "root";
+    private static final String PASSWORD = "password";
+
+    public static void main(String[] args) {
+        // Define SQL query
+        String query = "SELECT * FROM employees WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            // Set the parameter value
+            statement.setInt(1, 1);
+
+            // Execute the query
+            ResultSet resultSet = statement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                System.out.println("ID: " + id + ", Name: " + name);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+. On the other hand,
+JPA(Java Persistence API) is an ORM (Object Relational Mapping) which maps java classes to database tables.
+High-Level API: Offers an abstraction layer over JDBC, using ORM to map Java objects to database tables.
+Automatic SQL Generation: Generates SQL queries automatically based on entity mappings.
+Simplified Code: Simplifies database operations by managing connections, transactions, and caching automatically.
+ORM: Provides Object-Relational Mapping, allowing Java objects to be directly persisted into database tables without manual SQL.

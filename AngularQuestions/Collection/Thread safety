@@ -1,0 +1,42 @@
+Use Concurrent Collections for Performance:
+Prefer using ConcurrentHashMap over Hashtable or a synchronized HashMap.
+For thread-safe lists, use CopyOnWriteArrayList if your application is mostly read-heavy, or otherwise
+manage synchronization manually.
+Use blocking queues (like LinkedBlockingQueue) for producer-consumer problems.
+
+Synchronize External Operations:
+Even if you use synchronized collections (like Vector or synchronized wrappers), some operations that require
+multiple steps (like iterating over a collection) are not thread-safe. For such operations, you should manually
+synchronize the collection externally.
+
+List<Integer> synchronizedList = Collections.synchronizedList(new ArrayList<>());
+
+// External synchronization during iteration
+synchronized(synchronizedList) {
+    for (Integer i : synchronizedList) {
+        // Safe iteration
+    }
+}
+
+
+Legacy Thread-Safe Classes:
+
+Legacy Thread-Safe Classes:
+Vector (List)
+Stack (List)
+Hashtable (Map)
+Concurrent Collections (from java.util.concurrent package):
+
+Concurrent Collections (from java.util.concurrent package):
+ConcurrentHashMap (Map)
+CopyOnWriteArrayList (List)
+CopyOnWriteArraySet (Set)
+ConcurrentSkipListMap (NavigableMap)
+ConcurrentSkipListSet (NavigableSet)
+BlockingQueue (Queue)
+Synchronized Wrappers:
+
+Synchronized Wrappers:
+Collections.synchronizedList(List)
+Collections.synchronizedMap(Map)
+Collections.synchronizedSet(Set)

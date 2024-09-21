@@ -1,0 +1,54 @@
+NGINX can function as an API Gateway, routing requests to different microservices and balancing
+the load between instances. It's commonly used for on-premise setups or cloud environments where full
+control over configuration is desired.
+
+NGINX uses a configuration file (nginx.conf) to define routing rules and load balancing methods.
+It uses location blocks to match URL paths and directs traffic to upstream servers (microservice instances).
+Load balancing strategies like Round Robin, Least Connections, and IP Hash are configured within the upstream block.
+
+http {
+    # Define the upstream block with multiple instances of a microservice
+    upstream user_service {
+        # Round-robin load balancing by default
+        server user-service-1.example.com:8080;
+        server user-service-2.example.com:8080;
+        server user-service-3.example.com:8080;
+    }
+
+    upstream schedule_service {
+        # Least connections load balancing
+        least_conn;
+        server schedule-service-1.example.com:8081;
+        server schedule-service-2.example.com:8081;
+    }
+
+    server {
+        listen 80;
+
+        # Routing to the User Service
+        location /users {
+            proxy_pass http://user_service;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        # Routing to the Schedule Service
+        location /schedules {
+            proxy_pass http://schedule_service;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        # Default fallback location
+        location / {
+            return 404;
+        }
+    }
+}
+
+NGINX: Provides complete control over routing and load balancing through configuration files,
+suitable for environments requiring custom setups or on-premise deployments.
+AWS API Gateway: Offers a managed, scalable solution integrated with AWS services, ideal for cloud-native microservices
+with built-in security, monitoring, and easy scaling.

@@ -1,0 +1,69 @@
+Abstract Classes
+Definition: An abstract class is a class that cannot be instantiated on its own and is meant to be subclassed.
+It may include abstract methods (methods without implementation) that must be implemented by subclasses, as well as
+concrete methods (methods with implementation).
+
+Purpose: Abstract classes provide a way to define a common interface for a group of related classes while allowing for
+ shared code and enforcing that subclasses implement certain methods. They act as a blueprint for other classes.
+
+Usage: Use an abstract class when you want to define a common base class that shares some implementation and also
+specifies methods that must be implemented by subclasses.
+
+abstract class Animal {
+    abstract void makeSound(); // Abstract method
+
+    void breathe() { // Concrete method
+        System.out.println("Breathing...");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("Bark");
+    }
+}
+
+
+Inheritance
+Definition: Inheritance is a mechanism by which one class (the subclass or derived class) can inherit fields and
+methods from another class (the superclass or base class). It allows for code reuse and the creation of a hierarchical
+class structure.
+
+Purpose: Inheritance helps to model relationships between classes and promotes code reuse. It allows subclasses to
+inherit and extend the functionality of a superclass.
+
+Usage: Use inheritance when you want to create a new class that is a specialized version of an existing class.
+The new class can inherit properties and methods from the base class and add or override functionality.
+
+class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Bark");
+    }
+}
+
+class Test {
+    public static void main(String[] args) {
+        Dog myDog = new Dog();
+        myDog.eat();  // Inherited method
+        myDog.bark(); // Subclass-specific method
+    }
+}
+
+
+Instantiation: Abstract classes cannot be instantiated directly, while regular classes
+(which can also be base classes for inheritance) can be instantiated.
+
+Methods: Abstract classes can have both abstract methods (without implementation) and
+concrete methods
+(with implementation). Regular classes can have only concrete methods (although they can also have default
+implementations of methods).
+
+Purpose: Abstract classes are specifically used to define a common interface and shared code for related classes,
+while inheritance is a broader concept used to create hierarchical relationships and promote code reuse between classes.

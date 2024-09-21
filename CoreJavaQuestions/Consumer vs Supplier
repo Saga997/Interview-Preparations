@@ -1,0 +1,78 @@
+Consumer and Supplier are two of the functional interfaces introduced in the java.util.function package. These interfaces are part of Java’s move towards functional programming and provide more flexibility when working with data streams, lambdas, and method references.
+
+1. Consumer<T>
+A Consumer represents an operation that takes a single input but does not return any result.
+It’s typically used when you want to perform some action on an object, like printing or modifying it.
+
+@FunctionalInterface
+public interface Consumer<T> {
+    void accept(T t);
+}
+
+import java.util.function.Consumer;
+
+public class ConsumerExample {
+    public static void main(String[] args) {
+        // A Consumer that prints a string to the console
+        Consumer<String> printConsumer = s -> System.out.println(s);
+
+        // Consuming a string value
+        printConsumer.accept("Hello, Java 8!");
+    }
+}
+
+Performing actions on each element of a collection.
+Logging or printing data.
+Modifying objects without returning any value.
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class ConsumerStreamExample {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        names.forEach(System.out::println);  // Using a method reference as a Consumer
+    }
+}
+2. Supplier<T>
+A Supplier represents a supplier of results. Unlike Consumer, it doesn’t take any input but returns a result. This is typically used for lazy evaluation, fetching or generating values when needed.
+
+@FunctionalInterface
+public interface Supplier<T> {
+    T get();
+}
+Example:
+java
+Copy code
+import java.util.function.Supplier;
+
+public class SupplierExample {
+    public static void main(String[] args) {
+        // A Supplier that returns a default string
+        Supplier<String> stringSupplier = () -> "Hello, Supplier!";
+
+        // Getting the supplied value
+        System.out.println(stringSupplier.get());
+    }
+}
+Common Use Cases:
+Lazy initialization.
+Providing default values when something is missing.
+Factory methods that generate new objects on demand.
+Example with Random Numbers:
+java
+Copy code
+import java.util.Random;
+import java.util.function.Supplier;
+
+public class SupplierRandomExample {
+    public static void main(String[] args) {
+        // A Supplier that provides random integers
+        Supplier<Integer> randomSupplier = () -> new Random().nextInt(100);
+
+        // Supplying random numbers
+        System.out.println(randomSupplier.get());
+        System.out.println(randomSupplier.get());
+    }
+}

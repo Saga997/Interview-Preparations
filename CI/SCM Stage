@@ -1,0 +1,27 @@
+ Configure Source Code Management (SCM)
+Integrate Jenkins with SCM:
+
+Jenkins supports several SCMs like Git, GitHub, GitLab, Bitbucket, etc. The most commonly used is Git.
+For integration, install necessary plugins such as Git Plugin or GitHub Integration Plugin.
+Create a New Job or Pipeline:
+
+Navigate to Dashboard > New Item and select Pipeline.
+Provide a name for the job, and select Pipeline type.
+Configure SCM Settings:
+
+In the job configuration, set the repository URL and credentials.
+Set branch specifications if necessary (e.g., main, develop, or feature branches).
+Example SCM Configuration for Git:
+
+groovy
+Copy code
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/your-repo/your-project.git'
+            }
+        }
+    }
+}

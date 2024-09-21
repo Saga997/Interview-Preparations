@@ -1,0 +1,23 @@
+In multithreading, class-level lock and object-level lock are mechanisms used to synchronize access to shared
+resources to ensure thread safety. Both of these locking mechanisms are part of Java’s synchronization strategy to
+prevent race conditions.
+
+Object-Level Lock
+Definition: An object-level lock (also called instance-level lock) is a lock that is associated with an instance
+(object) of a class. When a thread acquires an object-level lock, it prevents other threads from executing any
+synchronized instance methods of that object until the lock is released.
+
+Each object has its own lock.
+When a thread calls a synchronized instance method on an object, the thread acquires the lock for that particular
+object. Other threads trying to access synchronized instance methods on the same object will be blocked, but other
+threads can still access synchronized methods of different objects of the same class.
+
+-----------------------------------------
+
+ Class-Level Lock
+Definition: A class-level lock is associated with the Class object. When a thread acquires a class-level lock,
+it prevents other threads from executing any synchronized static methods or blocks of the same class until the lock is released.
+
+When you want to synchronize access to static data or methods that are shared across all instances of the class
+(i.e., when multiple threads could access shared resources that belong to the class rather than an instance).
+

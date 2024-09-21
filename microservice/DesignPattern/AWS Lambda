@@ -1,0 +1,21 @@
+AWS Lambda is a serverless compute service that automatically runs your code in response to events and manages the underlying infrastructure. You only pay for the compute time you consume, which makes it highly efficient for short-running tasks.
+
+How AWS Lambda Works:
+You define a function and its triggering event (e.g., HTTP requests, S3 file uploads, or scheduled events).
+AWS Lambda executes your code when the trigger is activated.
+The function automatically scales up or down based on the number of incoming requests
+
+// index.js
+exports.handler = async (event) => {
+    const name = event.queryStringParameters && event.queryStringParameters.name;
+    const responseMessage = name ? `Hello, ${name}!` : 'Hello, World!';
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify({ message: responseMessage }),
+    };
+};
+
+Create a Lambda Function: Use the AWS Console, AWS CLI, or AWS SDKs to create the Lambda function.
+Set Up API Gateway Trigger: Link the Lambda function to an API Gateway to trigger it via HTTP requests.
+Invoke the Function: Call the endpoint via HTTP to trigger the Lambda function.

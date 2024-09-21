@@ -1,0 +1,159 @@
+Abstraction can be achieved using abstract classes and interfaces
+
+An abstract class can have both abstract methods (without a body) and concrete methods (with a body).
+Abstract classes allow for partial abstraction (i.e., they can have a mix of abstract and concrete methods).
+Abstract classes can have instance variables and constructors.
+A class can extend only one abstract class due to single inheritance.
+
+abstract class Shape{
+ String name = "Rectangle";
+
+ Shape(String name)
+ { this.name = name;
+ }
+
+ abstract public double area();
+ abstract public void draw();
+
+}
+
+class Rectangle extends Shape {
+int length,width;
+
+Rectangle(int length,int width, String name)
+{ super(name);
+  this.length = length;
+  this.width = width;
+  }
+
+  @Override
+  public void draw()
+  { System.out.println("Rectangle has been drawn"); }
+
+  @Override
+  public double area()
+  { return (double)(length * width); }
+
+  }
+
+  class Circle extends Shape{
+  { double pi = 3.14;
+  int radius;
+
+  Circle(int radius, String name)
+  { super(name);
+    this.radius =  radius;
+    }
+
+    @Override
+    public void draw()
+    { System.out.prinln("Circle has been drawn");
+    }
+
+    @Override
+    public double area()
+    { return (double)(3.14*radius*radius); }
+
+    }
+
+    public class Main{
+
+    public static void main(String[] args)
+    {
+    Shape rectangle = new Rectangle(2,3,"Rectangle");
+    System.out.prinln("Area of rectangle: "+ rectangle.area());
+
+    Shape circle = new Circle(2,"Circle");
+    System.out.prinln("Area of circle: " + cicle.area());
+
+    }
+
+
+    An interface is a fully abstract type (until Java 7) where all methods were abstract. From Java 8 onwards,
+    interfaces can also have default and static methods with concrete implementations.
+    An interface cannot have instance variables, but it can have constants (i.e., fields that are implicitly public,
+    static, and final).
+    A class can implement multiple interfaces, allowing for multiple inheritance of behavior.
+
+    Only constants (public, static, and final)
+
+    interface Animal {
+        // Abstract method (implicitly public and abstract)
+        void sound();
+
+        // Default method (from Java 8 onwards)
+        default void sleep() {
+            System.out.println("This animal is sleeping (from interface).");
+        }
+
+        // Static method (from Java 8 onwards)
+        static void info() {
+            System.out.println("All animals have a sound.");
+        }
+    }
+
+
+    class Dog implements Animal {
+        @Override
+        public void sound() {
+            System.out.println("Dog barks");
+        }
+    }
+
+    class Cat implements Animal {
+        @Override
+        public void sound() {
+            System.out.println("Cat meows");
+        }
+    }
+
+    public class InterfaceExample {
+        public static void main(String[] args) {
+            Animal myDog = new Dog();
+            myDog.sound();  // Output: Dog barks
+            myDog.sleep();  // Output: This animal is sleeping (from interface).
+
+            Animal myCat = new Cat();
+            myCat.sound();  // Output: Cat meows
+            myCat.sleep();  // Output: This animal is sleeping (from interface).
+
+            // Call static method from interface
+            Animal.info();  // Output: All animals have a sound.
+        }
+    }
+
+
+    Static methods in interfaces can be used to implement factory methods, which can return
+    instances of classes that implement the interface. This can help in controlling object creation and abstracting
+     the instantiation logic.
+
+     interface Calculator {
+         // Abstract method to implement in classes
+         int add(int a, int b);
+
+         // Static utility method for validating input
+         static boolean isValidNumber(int num) {
+             return num >= 0;
+         }
+     }
+
+     class SimpleCalculator implements Calculator {
+         @Override
+         public int add(int a, int b) {
+             if (Calculator.isValidNumber(a) && Calculator.isValidNumber(b)) {
+                 return a + b;
+             } else {
+                 throw new IllegalArgumentException("Numbers must be non-negative");
+             }
+         }
+     }
+
+     public class Main {
+         public static void main(String[] args) {
+             SimpleCalculator calc = new SimpleCalculator();
+             System.out.println(calc.add(10, 20));  // Output: 30
+         }
+     }
+
+
+

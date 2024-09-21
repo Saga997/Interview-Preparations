@@ -1,0 +1,49 @@
+Synchronization in Java is a mechanism that ensures that only one thread can access a shared resource at a time.
+It is essential in a multithreaded environment to prevent multiple threads from simultaneously modifying shared
+resources (like variables, objects, or files), which can lead to inconsistent results or race conditions.
+
+A race condition occurs in a multithreaded or parallel computing environment when two or more threads (or processes)
+attempt to access shared resources simultaneously without proper synchronization, leading to unpredictable or
+inconsistent outcomes.
+
+class Counter {
+    private int count = 0;
+
+    public void increment() {
+        count++;
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+
+public class RaceConditionExample {
+    public static void main(String[] args) throws InterruptedException {
+        Counter counter = new Counter();
+
+        // Thread 1 increments the counter 1000 times
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        // Thread 2 increments the counter 1000 times
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        // Wait for both threads to complete
+        t1.join();
+        t2.join();
+
+        // Print the final counter value
+        System.out.println("Final count: " + counter.getCount());
+    }
+}

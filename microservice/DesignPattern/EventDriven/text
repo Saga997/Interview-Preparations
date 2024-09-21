@@ -1,0 +1,100 @@
+AWS Batch Polling can be effectively used in Event-Driven Architecture, particularly in scenarios where scheduled or
+on-demand batch processing of events is required. In the context of Workforce Management (WFM), especially in the
+scheduling unit, AWS Batch Polling can be used to manage tasks such as large-scale shift scheduling, data aggregation,
+or reporting that are triggered by specific events.
+
+when new shifts are created or modified, these events can trigger batch processing jobs. For example, recalculating
+optimal schedules, generating reports, or bulk updating payroll records based on the new shift information.
+
+Event Generation:
+When a shift is scheduled or modified, an event is published to an AWS SNS (Simple Notification Service)
+topic or AWS SQS (Simple Queue Service).This event can carry details such as employee information, shift details, and other necessary data
+
+AWS Batch Job Trigger:
+AWS Batch polls the SQS queue for new messages.
+When an event is detected, it triggers a batch job, which processes the shift data accordingly.
+
+Batch Job Processing:
+AWS Batch runs the required computational job, such as calculating shift patterns, updating the
+database, or generating reports based on the event data.
+                     AWS Batch jobs can be optimized for scaling and parallel processing, making it ideal for heavy workloads.
+
+Result Handling and Feedback:
+Once the batch job is completed, results can be sent back to the main system via an API or can trigger another event
+for further processing, like notifying users of updated schedules.
+
+// Example event class representing a shift change event
+public class ShiftEvent {
+    private String shiftId;
+    private String employeeId;
+    private String action; // CREATED, UPDATED, DELETED
+    // Additional fields...
+
+    // Constructors, getters, and setters
+}
+
+// Publisher to send event to AWS SQS
+@Service
+public class ShiftEventPublisher {
+
+    private final AmazonSQS sqsClient;  //come from this dependency aws-java-sdk-sqs
+    private final String queueUrl = "https://sqs.us-east-1.amazonaws.com/your-account-id/shift-events";
+
+    public void publishShiftEvent(ShiftEvent shiftEvent) {
+        String message = new Gson().toJson(shiftEvent);
+        SendMessageRequest sendMsgRequest = new SendMessageRequest()
+            .withQueueUrl(queueUrl)
+            .withMessageBody(message)
+            .withDelaySeconds(5); // Optional delay
+        sqsClient.sendMessage(sendMsgRequest);
+    }
+}
+
+// AWS Batch Poller to consume events and trigger jobs
+public class BatchPollingService {
+
+    private final AmazonSQS sqsClient;
+    private final AWSBatch awsBatch;
+
+    public void pollAndProcessEvents() {
+        ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
+            .withQueueUrl("https://sqs.us-east-1.amazonaws.com/your-account-id/shift-events")
+            .withWaitTimeSeconds(20)
+            .withMaxNumberOfMessages(10);
+
+        List<Message> messages = sqsClient.receiveMessage(receiveMessageRequest).getMessages();
+
+        for (Message message : messages) {
+            ShiftEvent shiftEvent = new Gson().fromJson(message.getBody(), ShiftEvent.class);
+            // Trigger AWS Batch Job
+            submitBatchJob(shiftEvent);
+            // Delete the message from the queue after processing
+            sqsClient.deleteMessage(new DeleteMessageRequest()
+                .withQueueUrl(receiveMessageRequest.getQueueUrl())
+                .withReceiptHandle(message.getReceiptHandle()));
+        }
+    }
+
+    private void submitBatchJob(ShiftEvent shiftEvent) {
+        SubmitJobRequest submitJobRequest = new SubmitJobRequest()
+            .withJobName("ShiftProcessingJob")
+            .withJobQueue("your-job-queue-name")
+            .withJobDefinition("your-job-definition-name")
+            .withParameters(Collections.singletonMap("shiftEvent", new Gson().toJson(shiftEvent)));
+        awsBatch.submitJob(submitJobRequest);
+    }
+}
+
+public class SQSClientExample {
+
+    public static AmazonSQS createSQSClient() {
+        // Replace with your AWS access and secret keys
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials("your-access-key", "your-secret-key");
+
+        return AmazonSQSClientBuilder.standard()
+                .withRegion("us-east-1") // Replace with your preferred region
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .build();
+    }
+}
+

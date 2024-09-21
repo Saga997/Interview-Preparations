@@ -1,0 +1,10 @@
+Common Non-Thread-Safe Collections:
+1.ArrayList (implements List)
+2.LinkedList (implements List, Deque)
+3.HashSet (implements Set)
+4.LinkedHashSet (implements Set)
+5.TreeSet (implements NavigableSet)
+6.HashMap (implements Map)
+7.LinkedHashMap (implements Map)
+8.TreeMap (implements NavigableMap)
+

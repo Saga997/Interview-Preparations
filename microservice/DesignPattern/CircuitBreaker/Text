@@ -1,0 +1,31 @@
+The Circuit Breaker pattern can be extended with a fallback mechanism to handle failures gracefully. When a circuit
+breaker trips due to repeated failures, the fallback method is invoked to provide a default response or alternative action.
+
+Example Integration: Payroll Service with Fallback:
+
+Scenario: The Payroll Service in the WFM system depends on an external tax calculation API. If this API becomes unavailable, the Circuit Breaker trips to prevent further calls and engages a fallback mechanism.
+Fallback Implementation:
+Fallback Action: Return an estimated tax value based on historical data, or switch to a basic tax calculation logic within the service itself.
+Tools: Use libraries like Resilience4j or Netflix Hystrix to implement the circuit breaker with fallback capabilities
+
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+import org.springframework.stereotype.Service;
+
+@Service
+public class PayrollService {
+
+    @CircuitBreaker(name = "payrollService", fallbackMethod = "fallbackTaxCalculation")
+    public double calculateTax(double salary) {
+        // Call to external tax API
+        return externalTaxService.calculateTax(salary);
+    }
+
+    // Fallback method invoked when the circuit breaker trips
+    public double fallbackTaxCalculation(double salary, Throwable throwable) {
+        // Provide a fallback tax calculation, e.g., using a default rate
+        return salary * 0.1; // Estimate 10% tax rate
+    }
+}

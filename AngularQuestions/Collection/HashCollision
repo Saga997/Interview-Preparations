@@ -1,0 +1,18 @@
+Linear probing is one of the techniques used to resolve collisions in a hashmap (or hash table).
+A collision occurs when two keys hash to the same index in the underlying array of the hashmap.
+Instead of chaining (linking entries with the same hash), linear probing resolves collisions by
+searching for the next available slot in a linear sequence.
+
+How Linear Probing Works:
+Hash Function: A hash function maps a key to an index in the hashmap.
+Collision: When two keys hash to the same index, a collision occurs.
+Linear Probing: If the calculated index is occupied, the algorithm checks the next index (index + 1) in the array.
+If that index is also occupied, it checks the following one (index + 2), and so on, until it finds an empty slot.
+Wrap Around: If the end of the array is reached, the search wraps around to the beginning of the array (modulo operation).
+
+Example of Linear Probing:
+Let’s assume we are inserting key-value pairs into a hashmap with a capacity of 10. Suppose the hash function is hash(key) = key % 10.
+
+Insert (5, "A") → hash(5) = 5. Index 5 is empty, so we insert "A" at index 5.
+Insert (15, "B") → hash(15) = 5. Collision! We check the next index, 6, and insert "B" there.
+Insert (25, "C") → hash(25) = 5. Collision again! We check indices 6 and 7, and insert "C" at index 7.

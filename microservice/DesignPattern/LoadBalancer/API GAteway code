@@ -1,0 +1,9 @@
+AWS API Gateway is a managed service that provides routing, load balancing, security, and API management
+features. It's integrated with other AWS services like Lambda, EC2, ECS, and EKS, making it suitable for cloud-native
+microservices architectures.
+
+How AWS API Gateway Routes and Balances Load:
+API Gateway uses stages, resources, and methods to define routes.
+Integrations connect routes to backend services like Lambda, HTTP endpoints, or other AWS services.
+Load balancing is achieved by integrating with AWS Application Load Balancer (ALB) or Network Load Balancer (NLB),
+which distribute requests across multiple instances of the target service.

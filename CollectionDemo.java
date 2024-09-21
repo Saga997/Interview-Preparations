@@ -1,4 +1,4 @@
-package com.collection.interfaces;
+package com.collection.illustration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,7 +61,7 @@ public class CollectionDemo {
 		//System.out.println("After clear() "+fruitCollection);
 		
 		//toArray
-		System.out.println("Array after conversion"+ vegan instanceOf String);
+		System.out.println("Array after conversion"+ vegan instanceof String);
 		System.out.println(vegan.toString());
 		
 		

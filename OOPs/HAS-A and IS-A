@@ -1,0 +1,58 @@
+HAS-A and IS-A relationships represent different ways in which objects and classes
+relate to each other
+
+The IS-A relationship refers to inheritance, where a subclass (child) inherits the properties
+and behaviors (methods) from a superclass (parent). It implies that the subclass is a type of the superclass.
+
+// Superclass
+class Animal {
+    void eat() {
+        System.out.println("This animal is eating.");
+    }
+}
+
+// Subclass (IS-A relationship)
+class Dog extends Animal {
+    void bark() {
+        System.out.println("The dog is barking.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.eat();   // Inherited from Animal
+        dog.bark();  // Defined in Dog
+    }
+}
+
+The HAS-A relationship represents composition or aggregation, where one class contains another class
+ as a member. This is often referred to as a "has-a" relationship because one class has a reference to another.
+
+ // Class representing an Engine
+ class Engine {
+     void start() {
+         System.out.println("Engine started.");
+     }
+ }
+
+ // Class representing a Car that HAS-A Engine
+ class Car {
+     private Engine engine;  // HAS-A relationship
+
+     public Car() {
+         engine = new Engine(); // constructor of child class will have initialization of parent class reference
+     }
+
+     public void startCar() {
+         engine.start();  // Using the Engine object
+         System.out.println("Car is running.");
+     }
+ }
+
+ public class Main {
+     public static void main(String[] args) {
+         Car car = new Car();
+         car.startCar();  // Start the car which starts the engine
+     }
+ }

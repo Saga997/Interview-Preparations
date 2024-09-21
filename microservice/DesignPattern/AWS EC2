@@ -1,0 +1,22 @@
+AWS EC2 (Elastic Compute Cloud)
+AWS EC2 provides resizable virtual servers in the cloud, known as instances. It allows you to run applications on scalable and customizable virtual machines with full control over the OS and hardware configurations.
+
+How AWS EC2 Works:
+You launch instances with a specified AMI (Amazon Machine Image), instance type (e.g., t2.micro), and other configurations.
+EC2 instances can be configured to run a variety of operating systems, including Linux and Windows.
+Scaling can be managed manually or automatically using Auto Scaling Groups (ASGs).
+Example: Launch an EC2 Instance using AWS CLI
+bash
+Copy code
+# Launch an EC2 instance
+aws ec2 run-instances \
+  --image-id ami-0abcdef1234567890 \
+  --count 1 \
+  --instance-type t2.micro \
+  --key-name MyKeyPair \
+  --security-group-ids sg-0123456789abcdef0 \
+  --subnet-id subnet-6e7f829e
+Explanation:
+AMI ID: Specifies the image used for the instance (e.g., Amazon Linux 2).
+Instance Type: Defines the hardware configuration.
+Key Pair: Used for SSH access to the instance.

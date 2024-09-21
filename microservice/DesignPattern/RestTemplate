@@ -1,0 +1,50 @@
+RestTemplate is a class provided by Spring Framework that simplifies client-side HTTP communication. It is commonly
+used for making RESTful API calls from a Spring Boot application.
+
+How RestTemplate Works:
+Purpose: RestTemplate provides methods to perform HTTP requests like GET, POST, PUT, DELETE, etc., with automatic
+response handling and conversion to Java objects.
+Components: It uses HTTP clients under the hood (like Apache HttpClient or OkHttp) and leverages Jackson or other
+libraries to convert JSON/XML responses into Java objects.
+
+To use RestTemplate, you typically create a bean in your Spring Boot application and then use it to interact with
+external REST APIs.
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+
+@SpringBootApplication
+public class RestTemplateExampleApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(RestTemplateExampleApplication.class, args);
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class ApiService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public String getEmployeeData() {
+        // Replace with the actual URL of your REST API
+        String apiUrl = "https://jsonplaceholder.typicode.com/users";
+
+        // Making a GET request to the API and getting the response as a String
+        String response = restTemplate.getForObject(apiUrl, String.class);
+
+        return response;
+    }
+}

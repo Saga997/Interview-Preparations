@@ -1,0 +1,143 @@
+ AWS ECR (Elastic Container Registry)
+AWS ECR is a fully managed Docker container registry that makes it easy to store, manage, and deploy container images. It integrates seamlessly with ECS, EKS, and Lambda.
+
+How AWS ECR Works:
+You push Docker images to ECR repositories.
+Images can be pulled by ECS, EKS, or other Docker-compatible services.
+ECR supports image scanning for vulnerabilities and fine-grained access control using AWS IAM.
+Example: Push a Docker Image to ECR
+Step 1: Authenticate Docker with ECR
+
+bash
+Copy code
+# Get the login command from AWS CLI and execute it
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin
+ <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com
+Step 2: Tag and Push the Docker Image
+
+bash
+Copy code
+# Tag your Docker image
+docker tag my-web-app:latest <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-web-app:latest
+
+# Push the image to ECR
+docker push <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-web-app:latest
+
+To deploy microservices in Kubernetes with Docker images stored in AWS Elastic Container Registry (ECR),
+you need to push your Docker images to ECR, configure your Kubernetes deployment files or Helm charts to pull
+images from ECR, and ensure the microservices can communicate with each other.
+
+Create an ECR Repository: Use the AWS CLI or AWS Management Console to create an ECR repository.
+
+bash
+# Create a new ECR repository
+aws ecr create-repository --repository-name my-microservice --region us-west-2
+
+Authenticate Docker to ECR: Use the AWS CLI to log in to your ECR repository.
+This command generates a temporary login session.
+
+# Authenticate Docker to the ECR registry
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com
+
+Build and Tag the Docker Image: Ensure your Dockerfile is ready, and build the Docker image,
+tagging it with the ECR URL.
+
+# Build the Docker image
+docker build -t my-microservice .
+
+# Tag the Docker image with the ECR URL
+docker tag my-microservice:latest <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-microservice:latest
+
+Push the Docker Image to ECR: Push the tagged image to your ECR repository.
+
+Configure Kubernetes Deployment to Use ECR Images
+Update Helm values.yaml File or Kubernetes Deployment File: Modify your values.yaml or deployment.yaml
+file to point to the ECR image URL.
+
+Example values.yaml:
+image:
+  repository: <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-microservice
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+Example deployment.yaml for Kubernetes:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-microservice
+  template:
+    metadata:
+      labels:
+        app: my-microservice
+    spec:
+      containers:
+        - name: my-microservice
+          image: <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-microservice:latest
+          ports:
+            - containerPort: 8080
+
+
+
+Configure Kubernetes to Access ECR: Kubernetes clusters need permission to pull images from ECR.
+You can achieve this by configuring the service account used by your pods with the appropriate IAM role.
+
+Create an IAM Role with ECR Permissions: Attach a policy that allows pulling images from ECR.
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    }
+  ]
+}
+
+
+Associate the IAM Role with Your Kubernetes Service Account: Use AWS IAM Roles for Service Accounts (IRSA)
+if you are running on EKS. This allows your pods to assume the IAM role.
+
+eksctl create iamserviceaccount \
+  --name ecr-access-sa \
+  --namespace default \
+  --cluster your-cluster-name \
+  --attach-policy-arn arn:aws:iam::<aws_account_id>:policy/ecr-policy \
+  --approve
+
+Update the Deployment to Use the Service Account: Modify your Kubernetes deployment to
+use the service account created above:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-microservice
+  template:
+    metadata:
+      labels:
+        app: my-microservice
+    spec:
+      serviceAccountName: ecr-access-sa
+      containers:
+        - name: my-microservice
+          image: <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-microservice:latest
+          ports:
+            - containerPort: 8080

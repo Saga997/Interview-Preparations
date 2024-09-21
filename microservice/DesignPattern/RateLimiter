@@ -1,0 +1,89 @@
+Role: Controls the number of requests a user or client can make to prevent abuse and ensure fair usage.
+Example: Limiting requests to scheduling APIs to prevent overload or denial of service attacks.
+
+# API Gateway Rate Limiting Configuration
+spring:
+  cloud:
+    gateway:
+      filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 10
+            redis-rate-limiter.burstCapacity: 20
+
+ Implementing Rate Limiting in AWS API Gateway with CloudFormation
+AWS API Gateway allows you to define rate limiting as part of the usage plans and throttling settings.
+You can set up rate limits using CloudFormation scripts by defining the API Gateway resources and usage plans
+
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: MyRateLimitedApi
+      Description: API Gateway with rate limiting configured.
+
+  MyApiResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - MyApiGateway
+          - RootResourceId
+      PathPart: my-resource
+      RestApiId: !Ref MyApiGateway
+
+  MyApiMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      ResourceId: !Ref MyApiResource
+      RestApiId: !Ref MyApiGateway
+      Integration:
+        Type: MOCK
+        IntegrationResponses:
+          - StatusCode: 200
+      MethodResponses:
+        - StatusCode: 200
+
+  MyUsagePlan:
+    Type: AWS::ApiGateway::UsagePlan
+    Properties:
+      UsagePlanName: MyUsagePlan
+      Description: Usage plan with rate limiting.
+      Throttle:
+        RateLimit: 100  # Number of requests per second
+        BurstLimit: 200 # Burst capacity
+
+  MyUsagePlanKey:
+    Type: AWS::ApiGateway::UsagePlanKey
+    Properties:
+      KeyId: !Ref MyApiKey
+      KeyType: API_KEY
+      UsagePlanId: !Ref MyUsagePlan
+
+  MyApiKey:
+    Type: AWS::ApiGateway::ApiKey
+    Properties:
+      Enabled: true
+      Name: MyApiKey
+      Description: API Key for rate limiting
+      StageKeys:
+        - RestApiId: !Ref MyApiGateway
+          StageName: prod
+
+  MyDeployment:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId: !Ref MyApiGateway
+      StageName: prod
+
+
+AWS::ApiGateway::RestApi: Defines an API Gateway.
+AWS::ApiGateway::Resource: Creates a resource endpoint under the API.
+AWS::ApiGateway::Method: Defines an HTTP method (e.g., GET) for the resource.
+AWS::ApiGateway::UsagePlan: Sets the rate and burst limits.
+RateLimit: The maximum number of requests per second.
+BurstLimit: The maximum number of requests in a short burst.
+AWS::ApiGateway::ApiKey: Creates an API key to be used with the usage plan for tracking and controlling access.

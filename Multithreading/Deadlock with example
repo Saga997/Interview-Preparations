@@ -1,0 +1,55 @@
+A deadlock in computer science, particularly in multithreading, occurs when two or more threads are blocked forever,
+each waiting for the other to release a resource. Deadlock can arise when four conditions occur simultaneously:
+
+Mutual Exclusion: At least one resource is held in a non-sharable mode, i.e., only one thread can use the resource
+at any time.
+Hold and Wait: A thread is holding at least one resource and waiting to acquire additional resources held by
+other threads.
+No Preemption: Resources cannot be forcibly taken from a thread; they must be released voluntarily by the
+thread holding them.
+Circular Wait: A set of threads is waiting for resources in a circular chain, where each thread holds one
+resource and waits for another resource held by the next thread in the chain.
+
+public class DeadlockExample {
+
+    // Two resources
+    private final Object resource1 = new Object();
+    private final Object resource2 = new Object();
+
+    public static void main(String[] args) {
+        DeadlockExample deadlock = new DeadlockExample();
+
+        // Thread 1 tries to lock resource1 then resource2
+        Thread t1 = new Thread(() -> {
+            synchronized (deadlock.resource1) {
+                System.out.println("Thread 1: Locked resource 1");
+
+                // Simulate some work with resource 1
+                try { Thread.sleep(50); } catch (InterruptedException e) {}
+
+                System.out.println("Thread 1: Waiting for resource 2");
+                synchronized (deadlock.resource2) {
+                    System.out.println("Thread 1: Locked resource 2");
+                }
+            }
+        });
+
+        // Thread 2 tries to lock resource2 then resource1
+        Thread t2 = new Thread(() -> {
+            synchronized (deadlock.resource2) {
+                System.out.println("Thread 2: Locked resource 2");
+
+                // Simulate some work with resource 2
+                try { Thread.sleep(50); } catch (InterruptedException e) {}
+
+                System.out.println("Thread 2: Waiting for resource 1");
+                synchronized (deadlock.resource1) {
+                    System.out.println("Thread 2: Locked resource 1");
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}

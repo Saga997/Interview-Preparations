@@ -1,0 +1,28 @@
+2. Graceful Degradation with Cached Data
+When real-time data is temporarily unavailable due to service failure, fallback mechanisms can leverage
+cached or previously stored data to maintain service continuity.
+
+Example Integration: Employee Attendance Service with Cached Data Fallback:
+
+Scenario: The Attendance Service normally fetches real-time attendance data from the database. If the database service
+is down, a fallback mechanism retrieves the last available data from an in-memory cache (e.g., Redis).
+Fallback Implementation: Use a caching layer that temporarily stores frequently accessed data to be used in case of
+service unavailability.
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AttendanceService {
+
+    @Cacheable(value = "attendanceCache", key = "#employeeId", unless = "#result == null")
+    public Attendance getAttendance(String employeeId) {
+        // Primary data fetch logic
+        return databaseService.fetchAttendance(employeeId);
+    }
+
+    // Fallback: Use cached data if the primary source fails
+    public Attendance fallbackAttendance(String employeeId, Throwable throwable) {
+        return cacheService.getCachedAttendance(employeeId); // Retrieve last known attendance
+    }
+}

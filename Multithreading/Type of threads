@@ -1,0 +1,7 @@
+User Threads: Regular threads that keep the application running.
+Daemon Threads: Background service threads, terminated when no user thread is running.
+Main Thread: The thread that starts the execution of the main() method.
+Worker Threads: Used in thread pools for efficient task execution.
+Single-thread vs. Multi-thread: Single-threaded programs execute sequentially; multi-threaded programs allow
+parallel task execution.
+Interruptible Threads: Threads that can be interrupted while performing tasks.

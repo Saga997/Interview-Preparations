@@ -1,0 +1,72 @@
+Create a Helm Chart: Use Helm to create a chart structure for your microservice.
+
+bash
+helm create my-microservice-chart
+
+This command creates a folder named my-microservice-chart with the following key directories:
+
+Chart.yaml: Contains metadata about your Helm chart.
+values.yaml: Contains default values for your Helm chart.
+templates/: Contains template files for Kubernetes resources.
+
+Modify the values.yaml File: Update the values.yaml file to include the image details
+ and configurations.
+
+ # values.yaml
+
+ replicaCount: 2
+
+ image:
+   repository: your-repo/my-microservice
+   pullPolicy: IfNotPresent
+   tag: "latest"
+
+ service:
+   type: ClusterIP
+   port: 8080
+
+ ingress:
+   enabled: true
+   annotations: {}
+   hosts:
+     - host: my-microservice.local
+       paths:
+         - path: /
+           pathType: ImplementationSpecific
+
+ resources:
+   limits:
+     cpu: 200m
+     memory: 512Mi
+   requests:
+     cpu: 100m
+     memory: 256Mi
+
+
+Update the deployment.yaml Template:
+Modify the templates/deployment.yaml file to use the values defined in values.yaml
+
+Deploy the Helm Chart: Deploy your microservice using Helm in your Kubernetes cluster.
+
+bash
+# Install the Helm chart
+helm install my-microservice-release ./my-microservice-chart
+
+This command deploys the microservice based on the Helm chart and values defined.
+
+Verify the Deployment: Check if the microservice is successfully deployed in Kubernetes.
+
+bash
+# List the pods
+kubectl get pods
+
+# Check the services
+kubectl get svc
+
+# Check the deployment
+kubectl get deployments
+Upgrade the Helm Chart (when changes are made): If you update the Helm chart, upgrade the deployment using:
+
+bash
+Copy code
+helm upgrade my-microservice-release ./my-microservice-chart

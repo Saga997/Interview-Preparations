@@ -1,0 +1,24 @@
+SDKs are collections of tools, libraries, code samples, and documentation that allow developers to interact with a
+specific platform or service. They provide pre-built functionality that simplifies the integration process,
+allowing developers to use predefined methods instead of writing low-level code.
+
+Purpose: SDKs abstract the complexity of directly interacting with APIs by providing a more user-friendly interface,
+handling tasks like authentication, request formatting, error handling, and response parsing.
+Components: SDKs typically include libraries, utility functions, code samples, API documentation, and '
+configuration tools.
+Integration: Developers include SDKs in their projects via dependencies, like Maven or Gradle, and
+use the provided
+methods to interact with services.
+
+public class SchedulingSDK {
+    private final RestTemplate restTemplate;
+
+    public Shift getShiftDetails(String shiftId) {
+        return restTemplate.getForObject("http://scheduling-service/api/shifts/" + shiftId, Shift.class);
+    }
+
+    public void createShift(Shift shift) {
+        restTemplate.postForEntity("http://scheduling-service/api/shifts", shift, Void.class);
+    }
+}
+

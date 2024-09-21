@@ -1,0 +1,104 @@
+The Serializable interface in Java is a marker interface that allows objects of a class to be converted
+into a byte stream, which can then be saved to a file, transmitted over a network, or otherwise persisted.
+Serialization is commonly used for saving object states and transmitting objects between different components,
+like sending objects over a network.
+
+Serialization: Converts an object into a byte stream, preserving the state of the object.
+Deserialization: Converts the byte stream back into a copy of the original object.
+
+Fields marked as transient are not serialized, meaning their values are not saved during serialization.
+
+import java.io.*;
+
+// Product class implementing Serializable
+class Product implements Serializable {
+    // Serial version UID for version control in serialization
+    private static final long serialVersionUID = 1L;
+
+    private int id;
+    private String name;
+    private double price;
+
+    // Transient field - will not be serialized
+    private transient String secretCode;
+
+    // Constructor
+    public Product(int id, String name, double price, String secretCode) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.secretCode = secretCode;
+    }
+
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getSecretCode() {
+        return secretCode;
+    }
+
+    public void setSecretCode(String secretCode) {
+        this.secretCode = secretCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", secretCode='" + secretCode + '\'' +
+                '}';
+    }
+}
+
+// Main class to demonstrate serialization and deserialization
+public class SerializableExample {
+    public static void main(String[] args) {
+        // Creating a Product object
+        Product product = new Product(1, "Laptop", 1500.00, "SECRET123");
+
+        // File to store the serialized object
+        String filename = "product.ser";
+
+        // Serialization
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+            // Writing the object to file
+            out.writeObject(product);
+            System.out.println("Product serialized: " + product);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Deserialization
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+            // Reading the object from file
+            Product deserializedProduct = (Product) in.readObject();
+            System.out.println("Product deserialized: " + deserializedProduct);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
