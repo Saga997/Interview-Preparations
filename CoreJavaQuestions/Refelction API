@@ -1,0 +1,38 @@
+The Reflection API in Java is a powerful feature that allows your code to inspect and manipulate classes, methods, fields, and constructors at runtime — even if you don’t know their names at compile time.
+
+Why Use Reflection?
+- Access private fields/methods
+- Dynamically load classes at runtime
+- Useful in frameworks (like Spring, Hibernate), IDEs, and testing tools
+
+Core Classes in java.lang.reflect
+* Class<?> – represents classes and interfaces
+* Field – represents a field
+* Method – represents a method
+* Constructor – represents a constructor
+
+
+Example : 
+import java.lang.reflect.*;
+
+public class Demo {
+    private String secret = "hidden";
+
+    public void sayHello(String name) {
+        System.out.println("Hello, " + name);
+    }
+
+    public static void main(String[] args) throws Exception {
+        Class<?> clazz = Demo.class;
+        Demo obj = new Demo();
+
+        // Access method
+        Method method = clazz.getMethod("sayHello", String.class);
+        method.invoke(obj, "Java");
+
+        // Access private field
+        Field field = clazz.getDeclaredField("secret");
+        field.setAccessible(true);
+        System.out.println("Secret: " + field.get(obj)); // prints: hidden
+    }
+}
